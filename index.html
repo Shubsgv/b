@@ -11,7 +11,7 @@
             text-align: center;
             background-color: #fef3e6;
         }
-        #balloons, #cake, #picture {
+        #mainMessage, #confirmation, #finalMessage, #balloons, #cake, #picture {
             display: none;
             animation: fadeIn 2s forwards;
         }
@@ -23,12 +23,11 @@
             height: 100%;
             background: url('balloons.gif') no-repeat center/cover;
         }
-        #cake img {
+        #cake img, #picture img {
             width: 200px;
             margin-top: 20px;
         }
         #picture img {
-            width: 200px;
             border-radius: 50%;
             animation: zoomIn 2s forwards;
         }
@@ -42,6 +41,9 @@
             border-radius: 8px;
             margin-top: 50px;
         }
+        .lightingEffect {
+            animation: pulse 3s infinite;
+        }
         @keyframes fadeIn {
             from {opacity: 0;}
             to {opacity: 1;}
@@ -50,11 +52,23 @@
             from {transform: scale(0);}
             to {transform: scale(1);}
         }
+        @keyframes pulse {
+            0% { background-color: #fef3e6; }
+            50% { background-color: #ff4081; }
+            100% { background-color: #fef3e6; }
+        }
     </style>
 </head>
 <body>
-    <h1>🎉 Happy Birthday! 🎉</h1>
-    <button onclick="startSurprise()">Click Me!</button>
+    <div id="mainMessage">
+        <h1>Hey, it's your special day!</h1>
+    </div>
+    <button id="startButton" onclick="startSurprise()">Start Celebration</button>
+    <div id="confirmation">
+        <p>Do you want to see what I made for you?</p>
+        <button onclick="yesClicked()">Yes</button>
+        <button onclick="noClicked()">No</button>
+    </div>
     <div id="balloons"></div>
     <div id="cake">
         <img src="cake.png" alt="Cake">
@@ -62,15 +76,36 @@
     <div id="picture">
         <img src="picture.jpg" alt="Picture">
     </div>
+    <div id="finalMessage">
+        <p>I have a message for you!</p>
+    </div>
     <audio id="music" src="song.mp3"></audio>
 
     <script>
         function startSurprise() {
+            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('mainMessage').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('mainMessage').style.display = 'none';
+                document.getElementById('confirmation').style.display = 'block';
+            }, 2000);
+        }
+
+        function yesClicked() {
+            document.getElementById('confirmation').style.display = 'none';
             document.getElementById('balloons').style.display = 'block';
             document.getElementById('cake').style.display = 'block';
             document.getElementById('picture').style.display = 'block';
+            document.getElementById('finalMessage').style.display = 'block';
             document.getElementById('music').play();
+        }
+
+        function noClicked() {
+            document.getElementById('confirmation').style.display = 'none';
+            document.getElementById('finalMessage').innerHTML = "<h1>Okay, maybe next time!</h1>";
+            document.getElementById('finalMessage').style.display = 'block';
         }
     </script>
 </body>
 </html>
+
